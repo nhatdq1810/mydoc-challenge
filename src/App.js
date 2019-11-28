@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Home from './app/Home';
+import Navigation from './app/Navigation';
+import Favourites from './app/Favourites';
+import styles from './App.module.scss';
+
+const likeImage = (setFavouriteImages) => (favouriteImage) => () => {
+  setFavouriteImages(
+    oldFavouriteImages => oldFavouriteImages.some(image => image.id === favouriteImage.id)
+      ? oldFavouriteImages.filter(image => image.id !== favouriteImage.id)
+      : oldFavouriteImages.concat([favouriteImage])
+  );
+}
 
 function App() {
+  const [path, setPath] = useState('/');
+  const [favouriteImages, setFavouriteImages] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={styles.wrapper}>
+      <Navigation path={path} setPath={setPath} favouriteImagesSize={favouriteImages.length} />
+      {<Home path={path} favouriteImages={favouriteImages} likeImage={likeImage(setFavouriteImages)} />}
+      {<Favourites path={path} favouriteImages={favouriteImages} likeImage={likeImage(setFavouriteImages)} />}
     </div>
   );
 }

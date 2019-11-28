@@ -1,0 +1,19 @@
+@import "src/styles/_variables.scss";
+
+.wrapper {
+  border-bottom: 1px solid $light-text-color;
+  padding: 8px 0;
+
+  > button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: $light-text-color;
+    padding: 0 8px;
+
+    &:hover,
+    &.active {
+      color: $main-text-color;
+    }
+  }
+}

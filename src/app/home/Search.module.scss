@@ -1,0 +1,32 @@
+@import "src/styles/_variables.scss";
+
+.searchArea {
+  display: flex;
+  justify-content: center;
+  margin: 32px 0;
+  position: relative;
+}
+
+.loadingIndicator {
+  position: absolute;
+  right: 20%;
+  bottom: 4px;
+}
+
+.inputSearch {
+  border: none;
+  border-bottom: 1px solid $light-text-color;
+  width: 60%;
+  font-size: 24px;
+  outline: none;
+
+  &:hover,
+  &:active,
+  &:focus {
+    border-bottom-color: $main-text-color;
+  }
+
+  &::placeholder {
+    color: $light-text-color;
+  }
+}

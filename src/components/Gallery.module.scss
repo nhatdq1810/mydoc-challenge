@@ -1,0 +1,77 @@
+@import "src/styles/_variables.scss";
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -8px;
+
+  &Item {
+    position: relative;
+    flex: 0 0 calc(100% / 3 - 16px);
+    margin: 8px;
+
+    @media screen and (max-width: 992px) {
+      flex: 0 0 calc(50% - 16px);
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      .favouriteIcon {
+        opacity: 0.5;
+
+        &.active {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  &Image {
+    object-fit: cover;
+  }
+}
+
+.favouriteIcon {
+  position: absolute;
+  right: 8px;
+  bottom: 4px;
+  width: 40px;
+  height: 40px;
+  opacity: 0;
+
+  &.active {
+    opacity: 1;
+  }
+}
+
+.likeButton {
+  background: none;
+  border: none;
+}
+
+.emptyState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: $main-text-color;
+  font-size: 32px;
+}
+
+.paginationButton {
+  background: none;
+  border: 1px solid $light-text-color;
+  color: $light-text-color;
+  font-size: 20px;
+  margin-top: 8px;
+
+  &.disabled {
+    cursor: not-allowed;
+  }
+
+  &:not(.disabled):hover {
+    border-color: $main-text-color;
+    color: $main-text-color;
+  }
+}
