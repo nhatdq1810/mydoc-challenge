@@ -1,0 +1,29 @@
+@import "src/styles/_variables.scss";
+
+@keyframes slideIn {
+  from {
+    width: 0;
+  }
+  to {
+    width: 50%;
+  }
+}
+
+.wrapper {
+  z-index: 100;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: $light-text-color;
+  opacity: 0.98;
+}
+
+.popup {
+  width: 50%;
+  height: 100%;
+  background: white;
+  animation: slideIn 0.3s ease-in-out;
+  overflow-y: auto;
+}

@@ -2,46 +2,47 @@
 
 .gallery {
   display: flex;
-  flex-wrap: wrap;
   margin: 0 -8px;
 
   &Item {
-    position: relative;
-    flex: 0 0 calc(100% / 3 - 16px);
+    flex: 1 1 calc(100% / 3 - 16px);
     margin: 8px;
 
     @media screen and (max-width: 992px) {
       flex: 0 0 calc(50% - 16px);
     }
+  }
+
+  &ItemClickLayer {
+    background: none;
+    border: none;
+    height: 100%;
+    width: 100%;
 
     &:hover {
-      cursor: pointer;
-
-      .favouriteIcon {
-        opacity: 0.5;
-
-        &.active {
-          opacity: 1;
-        }
+      .galleryImageCaption {
+        color: $function-text-color;
+      }
+      .galleryImage {
+        transform: translate3d(0, -8px, 0);
+        transition: transform 0.2s ease-in-out;
       }
     }
+  }
+
+  &ImageWrapper {
+    height: calc(100% - 20px - 8px);
   }
 
   &Image {
     object-fit: cover;
   }
-}
 
-.favouriteIcon {
-  position: absolute;
-  right: 8px;
-  bottom: 4px;
-  width: 40px;
-  height: 40px;
-  opacity: 0;
-
-  &.active {
-    opacity: 1;
+  &ImageCaption {
+    margin: 0;
+    margin-top: 8px;
+    text-align: center;
+    color: $main-text-color;
   }
 }
 

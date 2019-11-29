@@ -36,7 +36,6 @@ function Home({ path, favouriteImages, likeImage }) {
       <Gallery
         emptyMessage={emptyMessage}
         favouriteImages={favouriteImages}
-        likeImage={likeImage}
         onClickNextProps={{
           gallery, searchQuery, setGallery,
           setIsLoadingMore, paginationOffset, setPaginationOffset,

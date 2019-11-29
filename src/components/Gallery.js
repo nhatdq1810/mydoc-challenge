@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Gallery.module.scss';
-import HeartIcon from '../assets/heart.svg';
 import { searchImagesApi } from '../services/api';
+import ItemDetailPopup from './gallery/ItemDetailPopup';
 
 const onClickNext = ({
   gallery, searchQuery, setGallery,
@@ -15,7 +15,7 @@ const onClickNext = ({
     setRenderGallery(existedImages);
     return;
   }
-  
+
   let result = [];
 
   setIsLoadingMore(true);
@@ -40,11 +40,17 @@ const onClickPrev = ({ gallery, setRenderGallery, setPaginationOffset, }) => () 
   });
 }
 
+const openDetail = (image, setSelectedCharacter) => () => {
+  setSelectedCharacter(image);
+}
+
 function Gallery({
-  renderGallery, likeImage, favouriteImages,
+  renderGallery, favouriteImages,
   emptyMessage, onClickNextProps, showPagination, isLoadingMore,
   onClickPrevProps, isStartOfGallery, isEndOfGallery
 }) {
+  const [selectedCharacter, setSelectedCharacter] = useState();
+
   if (!renderGallery) return null;
 
   return (
@@ -52,22 +58,25 @@ function Gallery({
       ? (<div className={styles.emptyState}>{emptyMessage}</div>)
       : (
         <>
+          <ItemDetailPopup selectedCharacter={selectedCharacter} setSelectedCharacter={setSelectedCharacter} />
           <ul className={styles.gallery}>
-            {renderGallery.map((image) => (
-              <li key={image.id} className={styles.galleryItem} onClick={likeImage(image)}>
-                <img
-                  className={styles.galleryImage}
-                  src={`${image.thumbnail.path}.${image.thumbnail.extension}`}
-                  alt={image.name}
-                />
-                <div className={`${styles.favouriteIcon} ${favouriteImages.some(fi => fi.id === image.id) ? styles.active : ''}`}>
-                  <img src={HeartIcon} alt="like icon" />
-                </div>
+            {renderGallery.map((character) => (
+              <li key={character.id} className={styles.galleryItem}>
+                <button className={styles.galleryItemClickLayer} onClick={openDetail(character, setSelectedCharacter)}>
+                  <div className={styles.galleryImageWrapper}>
+                    <img
+                      className={styles.galleryImage}
+                      src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
+                      alt={character.name}
+                    />
+                  </div>
+                  <h3 className={styles.galleryImageCaption}>{character.name}</h3>
+                </button>
               </li>
             ))}
           </ul>
           {showPagination &&
-            <>
+            <div>
               {onClickPrevProps && (
                 <button
                   onClick={onClickPrev(onClickPrevProps)}
@@ -88,7 +97,7 @@ function Gallery({
                     : 'Next'}
                 </button>
               )}
-            </>}
+            </div>}
         </>
       )
   )
