@@ -11,66 +11,60 @@ export default function ItemDetailPopup({ selectedCharacter, setSelectedCharacte
   return (
     <div className={styles.wrapper}>
       <div className={styles.popup}>
-        <button onClick={closePopup(setSelectedCharacter)}>X</button>
-        <section>
-          <img
-            className={styles.galleryImage}
-            src={`${selectedCharacter.thumbnail.path}.${selectedCharacter.thumbnail.extension}`}
-            alt={selectedCharacter.name}
-          />
-          <p>{selectedCharacter.name}</p>
-          <p>{selectedCharacter.description}</p>
-        </section>
-        <section>
-          <h3>Comics</h3>
-          {selectedCharacter.comics.available > 0 && (
+        <div className={styles.closePopup}><button onClick={closePopup(setSelectedCharacter)}>X</button></div>
+        <div className={styles.body}>
+          <section className={styles.characterContent}>
+            <img
+              className={styles.characterImage}
+              src={`${selectedCharacter.thumbnail.path}.${selectedCharacter.thumbnail.extension}`}
+              alt={selectedCharacter.name}
+            />
+            <div>
+              <h1 className={styles.characterName}>{selectedCharacter.name}</h1>
+              {selectedCharacter.description && <p className={styles.characterDesc}>{selectedCharacter.description}</p>}
+              {selectedCharacter.urls.length > 0 && <section>
+                <h3 className={styles.sectionHeader}>References</h3>
+                <ul>
+                  {selectedCharacter.urls.map(refer => (
+                    <li key={refer.type}><a href={refer.url} target="_blank" rel="noopener noreferrer">{refer.type === 'comiclink' ? 'comic link' : refer.type}</a></li>
+                  ))}
+                </ul>
+              </section>}
+            </div>
+          </section>
+          {selectedCharacter.comics.available > 0 && <section>
+            <h3 className={styles.sectionHeader}>Comics</h3>
             <ul>
               {selectedCharacter.comics.items.map(comic => (
-                <li>{comic.name}</li>
+                <li key={comic.name}><a href="/" target="_blank" rel="noopener noreferrer">{comic.name}</a></li>
               ))}
             </ul>
-          )}
-        </section>
-        <section>
-          <h3>Series</h3>
-          {selectedCharacter.series.available > 0 && (
+          </section>}
+          {selectedCharacter.series.available > 0 && <section>
+            <h3 className={styles.sectionHeader}>Series</h3>
             <ul>
               {selectedCharacter.series.items.map(series => (
-                <li>{series.name}</li>
+                <li key={series.name}><a href="/" target="_blank" rel="noopener noreferrer">{series.name}</a></li>
               ))}
             </ul>
-          )}
-        </section>
-        <section>
-          <h3>Stories</h3>
-          {selectedCharacter.stories.available > 0 && (
+          </section>}
+          {selectedCharacter.stories.available > 0 && <section>
+            <h3 className={styles.sectionHeader}>Stories</h3>
             <ul>
               {selectedCharacter.stories.items.map(story => (
-                <li>{story.name}</li>
+                <li key={story.name}><a href="/" target="_blank" rel="noopener noreferrer">{story.name}</a></li>
               ))}
             </ul>
-          )}
-        </section>
-        <section>
-          <h3>Events</h3>
-          {selectedCharacter.events.available > 0 && (
+          </section>}
+          {selectedCharacter.events.available > 0 && <section>
+            <h3 className={styles.sectionHeader}>Events</h3>
             <ul>
               {selectedCharacter.events.items.map(event => (
-                <li>{event.name}</li>
+                <li key={event.name}><a href="/" target="_blank" rel="noopener noreferrer">{event.name}</a></li>
               ))}
             </ul>
-          )}
-        </section>
-        <section>
-          <h3>References</h3>
-          {selectedCharacter.urls.length > 0 && (
-            <ul>
-              {selectedCharacter.urls.map(refer => (
-                <li><a href={refer.url}>{refer.type}</a></li>
-              ))}
-            </ul>
-          )}
-        </section>
+          </section>}
+        </div>
       </div>
     </div>
   )

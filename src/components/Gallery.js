@@ -76,7 +76,7 @@ function Gallery({
             ))}
           </ul>
           {showPagination &&
-            <div>
+            <div className={styles.paginationArea}>
               {onClickPrevProps && (
                 <button
                   onClick={onClickPrev(onClickPrevProps)}

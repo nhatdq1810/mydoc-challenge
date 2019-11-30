@@ -16,8 +16,7 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background: $light-text-color;
-  opacity: 0.98;
+  background: rgba(0,0,0,0.5);
 }
 
 .popup {
@@ -26,4 +25,53 @@
   background: white;
   animation: slideIn 0.3s ease-in-out;
   overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.body {
+  padding: 40px;
+
+  ul {
+    padding-left: 32px;
+  }
+
+  li {
+    &:not(:last-of-type) {
+      margin-bottom: 8px;
+    }
+  }
+}
+
+.character {
+  &Content {
+    display: flex;
+  }
+  &Image {
+    width: 65%;
+    margin-right: 8px;
+  }
+  &Name {
+    margin: 0;
+  }
+  &Desc {
+    line-height: 1.3em;
+  }
+}
+
+.sectionHeader {
+  position: relative;
+  &::after {
+    content: '';
+    width: 90%;
+    position: absolute;
+    bottom: 9px;
+    margin-left: 8px;
+    border-bottom: 1px dashed $light-text-color;
+  }
+}
+
+.closePopup {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 16px;
 }

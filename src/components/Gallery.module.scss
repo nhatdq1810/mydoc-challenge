@@ -60,19 +60,26 @@
   font-size: 32px;
 }
 
-.paginationButton {
-  background: none;
-  border: 1px solid $light-text-color;
-  color: $light-text-color;
-  font-size: 20px;
-  margin-top: 8px;
-
-  &.disabled {
-    cursor: not-allowed;
+.pagination {
+  &Area {
+    display: flex;
+    justify-content: center;
   }
 
-  &:not(.disabled):hover {
-    border-color: $main-text-color;
-    color: $main-text-color;
+  &Button {
+    background: none;
+    border: 1px solid $light-text-color;
+    color: $light-text-color;
+    font-size: 20px;
+    margin: 8px 8px 0;
+
+    &.disabled {
+      cursor: not-allowed;
+    }
+
+    &:not(.disabled):hover {
+      border-color: $main-text-color;
+      color: $main-text-color;
+    }
   }
 }
