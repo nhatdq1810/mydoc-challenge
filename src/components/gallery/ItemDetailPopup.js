@@ -1,17 +1,30 @@
 import React from 'react';
 import styles from './ItemDetailPopup.module.scss';
+import Button from '../Button';
+import heartIcon from '../../assets/heart.svg';
 
 const closePopup = (setSelectedCharacter) => () => {
   setSelectedCharacter(null);
 }
 
-export default function ItemDetailPopup({ selectedCharacter, setSelectedCharacter }) {
+const goToSavedList = (setPath) => () => {
+  setPath('/favourites');
+}
+
+export default function ItemDetailPopup({
+  selectedCharacter, setSelectedCharacter, likeCharacter, isFavourite,
+  setPath, showSavedListLink
+}) {
   if (!selectedCharacter) return null;
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.popup}>
-        <div className={styles.closePopup}><button onClick={closePopup(setSelectedCharacter)}>X</button></div>
+        <div className={styles.popupHeader}>
+          {isFavourite && showSavedListLink && <Button className={styles.savedListLink} onClick={goToSavedList(setPath)}>Go to saved list</Button>}
+          <Button className={`${styles.likeButton} ${isFavourite ? styles.active : ''}`} onClick={likeCharacter(selectedCharacter)}><img src={heartIcon} alt="like button" /></Button>
+          <Button onClick={closePopup(setSelectedCharacter)}>X</Button>
+        </div>
         <div className={styles.body}>
           <section className={styles.characterContent}>
             <img

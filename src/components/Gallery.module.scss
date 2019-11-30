@@ -5,7 +5,7 @@
   margin: 0 -8px;
 
   &Item {
-    flex: 1 1 calc(100% / 3 - 16px);
+    flex: 0 0 calc(100% / 3 - 16px);
     margin: 8px;
 
     @media screen and (max-width: 992px) {
@@ -46,11 +46,6 @@
   }
 }
 
-.likeButton {
-  background: none;
-  border: none;
-}
-
 .emptyState {
   display: flex;
   justify-content: center;
@@ -67,19 +62,6 @@
   }
 
   &Button {
-    background: none;
-    border: 1px solid $light-text-color;
-    color: $light-text-color;
-    font-size: 20px;
     margin: 8px 8px 0;
-
-    &.disabled {
-      cursor: not-allowed;
-    }
-
-    &:not(.disabled):hover {
-      border-color: $main-text-color;
-      color: $main-text-color;
-    }
   }
 }

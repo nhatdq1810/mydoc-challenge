@@ -3,7 +3,7 @@ import styles from './Home.module.scss';
 import Gallery from '../components/Gallery';
 import Search from './home/Search';
 
-function Home({ path, favouriteImages, likeImage }) {
+function Home({ path, favouriteCharacters, likeCharacter, setPath }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [gallery, setGallery] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -34,8 +34,11 @@ function Home({ path, favouriteImages, likeImage }) {
         isLoading={isLoading}
       />
       <Gallery
+        showSavedListLink
+        setPath={setPath}
         emptyMessage={emptyMessage}
-        favouriteImages={favouriteImages}
+        favouriteCharacters={favouriteCharacters}
+        likeCharacter={likeCharacter}
         onClickNextProps={{
           gallery, searchQuery, setGallery,
           setIsLoadingMore, paginationOffset, setPaginationOffset,
@@ -46,7 +49,7 @@ function Home({ path, favouriteImages, likeImage }) {
         renderGallery={renderGallery}
         onClickPrevProps={{ gallery, setRenderGallery, setPaginationOffset, }}
         isStartOfGallery={paginationOffset === 0}
-        isEndOfGallery={paginationOffset >= totalImages }
+        isEndOfGallery={paginationOffset >= totalImages}
       />
     </div>
   );

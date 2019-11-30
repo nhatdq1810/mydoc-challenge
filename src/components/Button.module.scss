@@ -1,0 +1,17 @@
+@import "src/styles/_variables.scss";
+
+.button {
+  background: none;
+  border: 1px solid $light-text-color;
+  color: $light-text-color;
+  font-size: 20px;
+
+  &.disabled {
+    cursor: not-allowed;
+  }
+
+  &:not(.disabled):hover {
+    border-color: $main-text-color;
+    color: $main-text-color;
+  }
+}

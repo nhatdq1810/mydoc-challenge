@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './Gallery.module.scss';
 import { searchImagesApi } from '../services/api';
 import ItemDetailPopup from './gallery/ItemDetailPopup';
+import Button from './Button';
 
 const onClickNext = ({
   gallery, searchQuery, setGallery,
@@ -40,14 +41,18 @@ const onClickPrev = ({ gallery, setRenderGallery, setPaginationOffset, }) => () 
   });
 }
 
-const openDetail = (image, setSelectedCharacter) => () => {
-  setSelectedCharacter(image);
+const openDetail = (character, setSelectedCharacter) => () => {
+  setSelectedCharacter(character);
+}
+
+const favourCharacter = (likeCharacter) => (character) => () => {
+  likeCharacter(character);
 }
 
 function Gallery({
-  renderGallery, favouriteImages,
+  renderGallery, favouriteCharacters, likeCharacter,
   emptyMessage, onClickNextProps, showPagination, isLoadingMore,
-  onClickPrevProps, isStartOfGallery, isEndOfGallery
+  onClickPrevProps, isStartOfGallery, isEndOfGallery, setPath, showSavedListLink
 }) {
   const [selectedCharacter, setSelectedCharacter] = useState();
 
@@ -58,7 +63,14 @@ function Gallery({
       ? (<div className={styles.emptyState}>{emptyMessage}</div>)
       : (
         <>
-          <ItemDetailPopup selectedCharacter={selectedCharacter} setSelectedCharacter={setSelectedCharacter} />
+          <ItemDetailPopup
+            selectedCharacter={selectedCharacter}
+            setSelectedCharacter={setSelectedCharacter}
+            likeCharacter={favourCharacter(likeCharacter)}
+            isFavourite={selectedCharacter && favouriteCharacters.some(character => character.id === selectedCharacter.id)}
+            setPath={setPath}
+            showSavedListLink={showSavedListLink}
+          />
           <ul className={styles.gallery}>
             {renderGallery.map((character) => (
               <li key={character.id} className={styles.galleryItem}>
@@ -78,24 +90,24 @@ function Gallery({
           {showPagination &&
             <div className={styles.paginationArea}>
               {onClickPrevProps && (
-                <button
+                <Button
                   onClick={onClickPrev(onClickPrevProps)}
                   disabled={isStartOfGallery}
-                  className={`${styles.paginationButton} ${isStartOfGallery ? styles.disabled : ''}`}
+                  className={styles.paginationButton}
                 >
                   Prev
-                </button>
+                </Button>
               )}
               {onClickNextProps && (
-                <button
+                <Button
                   onClick={onClickNext(onClickNextProps)}
                   disabled={isLoadingMore || isEndOfGallery}
-                  className={`${styles.paginationButton} ${isLoadingMore || isEndOfGallery ? styles.disabled : ''}`}
+                  className={styles.paginationButton}
                 >
                   {isLoadingMore
                     ? 'Loading...'
                     : 'Next'}
-                </button>
+                </Button>
               )}
             </div>}
         </>

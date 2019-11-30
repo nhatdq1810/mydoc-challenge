@@ -5,7 +5,7 @@ const navigateTo = (setPath, path) => () => {
   setPath(path);
 }
 
-export default function Navigation({ path, setPath, favouriteImagesSize }) {
+export default function Navigation({ path, setPath, favouriteCharactersSize }) {
   return (
     <nav className={styles.wrapper}>
       <button onClick={navigateTo(setPath, '/')} className={`${path === '/' ? styles.active : ''}`}>Search</button>
@@ -13,7 +13,7 @@ export default function Navigation({ path, setPath, favouriteImagesSize }) {
         onClick={navigateTo(setPath, '/favourites')}
         className={`${path === '/favourites' ? styles.active : ''}`}
       >
-        Favourites{favouriteImagesSize !== 0 && ` (${favouriteImagesSize})`}
+        Favourites{favouriteCharactersSize !== 0 && ` (${favouriteCharactersSize})`}
       </button>
     </nav>
   )
