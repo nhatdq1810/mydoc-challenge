@@ -2,17 +2,9 @@ import React from 'react';
 import styles from './ItemDetailPopup.module.scss';
 import Button from '../Button';
 
-const closePopup = (setSelectedCharacter) => () => {
-  setSelectedCharacter(null);
-}
-
-const goToSavedList = (setPath) => () => {
-  setPath('/favourites');
-}
-
 export default function ItemDetailPopup({
-  selectedCharacter, setSelectedCharacter, likeCharacter, isFavourite,
-  setPath, showSavedListLink
+  selectedCharacter, likeCharacter, isFavourite,
+  showSavedListLink, goToSavedList, closePopup
 }) {
   if (!selectedCharacter) return null;
 
@@ -20,14 +12,14 @@ export default function ItemDetailPopup({
     <div className={styles.wrapper}>
       <div className={styles.popup}>
         <div className={styles.popupHeader}>
-          {showSavedListLink && <Button className={styles.savedListLink} onClick={goToSavedList(setPath)}>Go to saved list</Button>}
+          {showSavedListLink && <Button className={styles.savedListLink} onClick={goToSavedList}>Go to saved list</Button>}
           <Button
             className={`${styles.saveButton} ${isFavourite ? styles.active : ''}`}
-            onClick={likeCharacter(selectedCharacter)}
+            onClick={likeCharacter}
           >
             {isFavourite ? 'Unsave' : 'Save'}
           </Button>
-          <Button data-test-id="closePopupButton" onClick={closePopup(setSelectedCharacter)}>X</Button>
+          <Button data-test-id="closePopupButton" onClick={closePopup}>X</Button>
         </div>
         <div className={styles.body}>
           <section className={styles.characterContent}>

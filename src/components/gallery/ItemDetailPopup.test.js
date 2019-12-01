@@ -34,10 +34,10 @@ describe('ItemDetailPopup', () => {
         { type: 'comiclink', url: 'comiclink url' },
       ]
     },
-    setSelectedCharacter: jest.fn(),
+    closePopup: jest.fn(),
     likeCharacter: jest.fn(),
     isFavourite: false,
-    setPath: jest.fn(),
+    goToSavedList: jest.fn(),
     showSavedListLink: false,
   };
 
@@ -79,14 +79,13 @@ describe('ItemDetailPopup', () => {
     expect(eventSection.find('.sectionHeader').text()).toBe('Events');
   });
 
-  it('should set selectedCharacter to null when close popup', () => {
+  it('should call closePopup when clicking close button', () => {
     const wrapper = shallow(<ItemDetailPopup {...props} />);
     const closeButton = wrapper.find('[data-test-id="closePopupButton"]');
 
     closeButton.simulate('click');
 
-    expect(props.setSelectedCharacter).toHaveBeenCalledTimes(1);
-    expect(props.setSelectedCharacter).toHaveBeenCalledWith(null);
+    expect(props.closePopup).toHaveBeenCalledTimes(1);
   });
 
   it('should call likeCharacter when clicking save button', () => {
@@ -96,7 +95,6 @@ describe('ItemDetailPopup', () => {
     saveButton.simulate('click');
 
     expect(props.likeCharacter).toHaveBeenCalledTimes(1);
-    expect(props.likeCharacter).toHaveBeenCalledWith(props.selectedCharacter);
   });
 
   it('should show saved list link', () => {
@@ -106,7 +104,6 @@ describe('ItemDetailPopup', () => {
     savedListLink.simulate('click');
 
     expect(savedListLink).toHaveLength(1);
-    expect(props.setPath).toHaveBeenCalledTimes(1);
-    expect(props.setPath).toHaveBeenCalledWith('/favourites');
+    expect(props.goToSavedList).toHaveBeenCalledTimes(1);
   });
 });

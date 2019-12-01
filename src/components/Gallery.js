@@ -54,8 +54,16 @@ const openDetail = (character, setSelectedCharacter) => () => {
   setSelectedCharacter(character);
 }
 
-const favourCharacter = (likeCharacter) => (character) => () => {
+const favourCharacter = (likeCharacter, character) => () => {
   likeCharacter(character);
+}
+
+const goToSavedList = (setPath) => () => {
+  setPath('/favourites');
+}
+
+const closePopup = (setSelectedCharacter) => () => {
+  setSelectedCharacter(null);
 }
 
 function Gallery({
@@ -74,11 +82,11 @@ function Gallery({
         <>
           <ItemDetailPopup
             selectedCharacter={selectedCharacter}
-            setSelectedCharacter={setSelectedCharacter}
-            likeCharacter={favourCharacter(likeCharacter)}
+            likeCharacter={favourCharacter(likeCharacter, selectedCharacter)}
             isFavourite={selectedCharacter && favouriteCharacters.some(character => character.id === selectedCharacter.id)}
-            setPath={setPath}
             showSavedListLink={showSavedListLink}
+            goToSavedList={goToSavedList(setPath)}
+            closePopup={closePopup(setSelectedCharacter)}
           />
           <ul className={styles.gallery}>
             {renderGallery.map((character) => (
