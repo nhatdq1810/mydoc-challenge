@@ -20,7 +20,7 @@ export default function ItemDetailPopup({
     <div className={styles.wrapper}>
       <div className={styles.popup}>
         <div className={styles.popupHeader}>
-          {isFavourite && showSavedListLink && <Button className={styles.savedListLink} onClick={goToSavedList(setPath)}>Go to saved list</Button>}
+          {showSavedListLink && <Button className={styles.savedListLink} onClick={goToSavedList(setPath)}>Go to saved list</Button>}
           <Button
             className={`${styles.saveButton} ${isFavourite ? styles.active : ''}`}
             onClick={likeCharacter(selectedCharacter)}

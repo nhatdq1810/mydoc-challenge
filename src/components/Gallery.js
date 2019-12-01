@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Gallery.module.scss';
-import { searchImagesApi } from '../services/api';
+import { searchCharactersApi } from '../services/api';
 import ItemDetailPopup from './gallery/ItemDetailPopup';
 import Button from './Button';
 
@@ -9,34 +9,43 @@ const onClickNext = ({
   setIsLoadingMore, paginationOffset, setPaginationOffset,
   setRenderGallery
 }) => async () => {
-  const existedImages = gallery.slice(paginationOffset, paginationOffset + 3);
+  const existedCharacters = gallery.slice(paginationOffset, paginationOffset + 3);
 
-  if (existedImages.length > 0) {
+  if (existedCharacters.length > 0) {
     setPaginationOffset(oldPaginationOffset => oldPaginationOffset + 3);
-    setRenderGallery(existedImages);
+    setRenderGallery(existedCharacters);
     return;
   }
 
-  let result = [];
+  let characters = [];
+  let actualCharacterCount = 3;
 
   setIsLoadingMore(true);
 
-  const response = await fetch(searchImagesApi({ searchQuery, limit: 3, offset: gallery.length }));
+  const response = await fetch(searchCharactersApi({ searchQuery, limit: 3, offset: gallery.length }));
   if (response.status === 200) {
     const data = (await response.json()).data;
-    result = data.results;
+    characters = data.results;
+    actualCharacterCount = data.count;
   }
 
-  setPaginationOffset(oldPaginationOffset => oldPaginationOffset + 3);
-  setGallery(oldGallery => oldGallery.concat(result));
-  setRenderGallery(result);
+  setPaginationOffset(oldPaginationOffset => oldPaginationOffset + actualCharacterCount);
+  setGallery(oldGallery => oldGallery.concat(characters));
+  setRenderGallery(characters);
   setIsLoadingMore(false);
 }
 
-const onClickPrev = ({ gallery, setRenderGallery, setPaginationOffset, }) => () => {
+const onClickPrev = ({ gallery, setRenderGallery, setPaginationOffset }) => () => {
   setPaginationOffset(oldPaginationOffset => {
-    const newPaginationOffset = oldPaginationOffset - 3;
-    setRenderGallery(gallery.slice(newPaginationOffset, oldPaginationOffset));
+    let newPaginationOffset = oldPaginationOffset - 3;
+    if (newPaginationOffset < 0) {
+      newPaginationOffset = 0;
+    }
+
+    setRenderGallery(gallery.slice(
+      newPaginationOffset,
+      oldPaginationOffset
+    ));
     return newPaginationOffset;
   });
 }

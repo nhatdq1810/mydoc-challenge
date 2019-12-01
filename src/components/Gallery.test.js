@@ -3,7 +3,31 @@ import { shallow } from 'enzyme';
 import Gallery from './Gallery';
 
 describe('Gallery', () => {
-  const likeCharacter = jest.fn();
+  const props = {
+    renderGallery: [{
+      thumbnail: {
+        path: 'image',
+        extension: 'jpg'
+      },
+      name: 'character A',
+      id: 1,
+    }],
+    favouriteCharacters: [],
+    likeCharacter: jest.fn(),
+    emptyMessage: '',
+    onClickNextProps: {
+      gallery: [], searchQuery: '', setGallery: jest.fn(),
+      setIsLoadingMore: jest.fn(), paginationOffset: 0, setPaginationOffset: jest.fn(),
+      setRenderGallery: jest.fn()
+    },
+    showPagination: false,
+    isLoadingMore: false,
+    onClickPrevProps: { gallery: [], setRenderGallery: jest.fn(), setPaginationOffset: jest.fn() },
+    isStartOfGallery: false,
+    isEndOfGallery: false,
+    setPath: jest.fn(),
+    showSavedListLink: false
+  }
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -37,7 +61,6 @@ describe('Gallery', () => {
       <Gallery
         renderGallery={renderGallery}
         favouriteCharacters={favouriteCharacters}
-        likeCharacter={likeCharacter}
       />
     );
     const galleryComponent = wrapper.find('.gallery');
@@ -49,5 +72,54 @@ describe('Gallery', () => {
     expect(galleryImageComponent).toHaveLength(2);
     expect(galleryImageComponent.at(0).prop('src')).toBe('image1-url.jpg');
     expect(galleryImageComponent.at(0).prop('alt')).toBe(renderGallery[0].name);
+  });
+
+  it('should render pagination', () => {
+    const wrapper = shallow(<Gallery {...props} showPagination />);
+    const paginationButtons = wrapper.find('.paginationButton');
+    const prevButton = paginationButtons.at(0);
+
+    prevButton.simulate('click');
+
+    expect(paginationButtons).toHaveLength(2);
+    expect(props.onClickPrevProps.setPaginationOffset).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not fetch more characters when characters are existed', () => {
+    const gallery = [{}, {}, {}];
+    const customProps = {
+      ...props,
+      showPagination: true,
+      onClickNextProps: { ...props.onClickNextProps, gallery }
+    };
+    const wrapper = shallow(<Gallery {...customProps} />);
+    const paginationButtons = wrapper.find('.paginationButton');
+    const nextButton = paginationButtons.at(1);
+
+    nextButton.simulate('click');
+
+    expect(customProps.onClickNextProps.setPaginationOffset).toHaveBeenCalledTimes(1);
+    expect(customProps.onClickNextProps.setRenderGallery).toHaveBeenCalledTimes(1);
+    expect(customProps.onClickNextProps.setRenderGallery).toHaveBeenCalledWith(gallery);
+  });
+
+  it('should fetch more characters when characters are not existed', () => {
+    const characters = [{}];
+    global.fetch = jest.fn(() => Promise.resolve({
+      status: 200,
+      json: jest.fn(() => Promise.resolve({
+        data: {
+          results: characters,
+          count: characters.length
+        }
+      }))
+    }));
+    const wrapper = shallow(<Gallery {...props} showPagination />);
+    const paginationButtons = wrapper.find('.paginationButton');
+    const nextButton = paginationButtons.at(1);
+
+    nextButton.simulate('click');
+
+    expect(global.fetch).toHaveBeenCalledTimes(1);
   });
 });

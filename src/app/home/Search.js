@@ -1,17 +1,16 @@
 import React from 'react';
 import styles from './Search.module.scss';
-import { searchImagesApi } from '../../services/api';
+import { searchCharactersApi } from '../../services/api';
 
-const fetchImages = async ({
+const fetchCharacters = async ({
   searchQuery, setGallery, setIsLoading,
-  setShowPagination, paginationOffset,
-  setRenderGallery, setTotalImages
+  setShowPagination, setRenderGallery, setTotalCharacters, setPaginationOffset
 }) => {
   let result = [];
 
   setIsLoading(true);
 
-  const response = await fetch(searchImagesApi({ searchQuery, limit: 3, offset: paginationOffset }));
+  const response = await fetch(searchCharactersApi({ searchQuery, limit: 3, offset: 0 }));
   if (response.status === 200) {
     const data = (await response.json()).data;
     result = data.results;
@@ -20,35 +19,28 @@ const fetchImages = async ({
       setShowPagination(true);
     }
 
-    setTotalImages(data.total);
+    setTotalCharacters(data.total);
   }
 
   setRenderGallery(result);
   setGallery(result);
   setIsLoading(false);
+  setPaginationOffset(0);
 };
 
-let fetchImagesToken = null;
+let fetchCharactersToken = null;
 
-const onSearch = ({
-  setSearchQuery, setGallery, setIsLoading,
-  setShowPagination, paginationOffset,
-  setRenderGallery, setTotalImages
-}) => (event) => {
+const onSearch = ({ setSearchQuery, ...onFetchCharactersProps }) => (event) => {
   const value = event.target.value;
   setSearchQuery(value);
 
-  if (fetchImagesToken) {
-    clearTimeout(fetchImagesToken);
+  if (fetchCharactersToken) {
+    clearTimeout(fetchCharactersToken);
   }
 
   if (value) {
-    fetchImagesToken = setTimeout(() => {
-      fetchImages({
-        searchQuery: value, setGallery, setIsLoading,
-        setShowPagination, paginationOffset, setTotalImages,
-        setRenderGallery
-      });
+    fetchCharactersToken = setTimeout(() => {
+      fetchCharacters({ searchQuery: value, ...onFetchCharactersProps });
     }, 500);
   }
 }
@@ -58,7 +50,7 @@ export default function Search({ searchQuery, onSearchProps, isLoading }) {
     <div className={styles.searchArea}>
       <input
         type="text"
-        placeholder="Start searching for images!"
+        placeholder="Start searching characters!"
         className={styles.inputSearch}
         value={searchQuery}
         onChange={onSearch(onSearchProps)}

@@ -12,7 +12,7 @@ describe('Search', () => {
 
     expect(inputSearch).toHaveLength(1);
     expect(inputSearch.prop('value')).toBe(searchQuery);
-    expect(inputSearch.prop('placeholder')).toBe('Start searching for images!');
+    expect(inputSearch.prop('placeholder')).toBe('Start searching characters!');
     expect(loadingIndicator).toHaveLength(0);
   });
 

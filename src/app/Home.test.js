@@ -11,9 +11,9 @@ describe('Home', () => {
   });
 
   it('should render Search and Gallery components', () => {
-    const favouriteImages = [];
+    const favouriteCharacters = [];
 
-    const wrapper = shallow(<Home path="/" favouriteImages={favouriteImages} likeImage={jest.fn()} />);
+    const wrapper = shallow(<Home path="/" favouriteCharacters={favouriteCharacters} likeCharacter={jest.fn()} />);
     const searchComponent = wrapper.find(Search);
     const galleryComponent = wrapper.find(Gallery);
 

@@ -12,11 +12,11 @@ function Home({ path, favouriteCharacters, likeCharacter, setPath }) {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [renderGallery, setRenderGallery] = useState();
   const [paginationOffset, setPaginationOffset] = useState(0);
-  const [totalImages, setTotalImages] = useState(0);
+  const [totalCharacters, setTotalCharacters] = useState(0);
 
   useEffect(() => {
     if (!emptyMessage && searchQuery && gallery && gallery.length === 0) {
-      setEmptyMessage('No images!');
+      setEmptyMessage('No characters!');
     }
   }, [emptyMessage, gallery, searchQuery]);
 
@@ -28,8 +28,7 @@ function Home({ path, favouriteCharacters, likeCharacter, setPath }) {
         searchQuery={searchQuery}
         onSearchProps={{
           setSearchQuery, setGallery, setIsLoading,
-          setShowPagination, paginationOffset,
-          setRenderGallery, setTotalImages
+          setShowPagination, setRenderGallery, setTotalCharacters, setPaginationOffset
         }}
         isLoading={isLoading}
       />
@@ -49,7 +48,7 @@ function Home({ path, favouriteCharacters, likeCharacter, setPath }) {
         renderGallery={renderGallery}
         onClickPrevProps={{ gallery, setRenderGallery, setPaginationOffset, }}
         isStartOfGallery={paginationOffset === 0}
-        isEndOfGallery={paginationOffset >= totalImages}
+        isEndOfGallery={paginationOffset >= totalCharacters}
       />
     </div>
   );
