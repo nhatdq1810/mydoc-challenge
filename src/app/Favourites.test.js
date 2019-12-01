@@ -10,16 +10,16 @@ describe('Favourites', () => {
   });
 
   it('should render gallery', () => {
-    const favouriteImages = [{ id: 1 }];
-    const likeImage = jest.fn();
+    const favouriteCharacters = [{ id: 1 }];
+    const likeCharacter = jest.fn();
 
-    const wrapper = shallow(<Favourites path="/favourites" favouriteImages={favouriteImages} likeImage={likeImage} />);
+    const wrapper = shallow(<Favourites path="/favourites" favouriteCharacters={favouriteCharacters} likeCharacter={likeCharacter} />);
     const galleryComponent = wrapper.find(Gallery);
 
     expect(galleryComponent).toHaveLength(1);
     expect(galleryComponent.prop('emptyMessage')).toBe('Nothing here!');
-    expect(galleryComponent.prop('gallery')).toBe(favouriteImages);
-    expect(galleryComponent.prop('favouriteImages')).toBe(favouriteImages);
+    expect(galleryComponent.prop('renderGallery')).toBe(favouriteCharacters);
+    expect(galleryComponent.prop('favouriteCharacters')).toBe(favouriteCharacters);
   });
 });
 

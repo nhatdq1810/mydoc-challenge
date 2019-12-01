@@ -10,7 +10,7 @@ describe('Navigation', () => {
   });
 
   it('should render 2 nav items', () => {
-    const wrapper = shallow(<Navigation path="/" setPath={setPath} favouriteImagesSize={0} />);
+    const wrapper = shallow(<Navigation path="/" setPath={setPath} favouriteCharactersSize={0} />);
     let navItems = wrapper.find('button');
 
     expect(navItems).toHaveLength(2);
@@ -19,7 +19,7 @@ describe('Navigation', () => {
     expect(navItems.at(1).prop('className')).not.toContain('active');
     expect(navItems.at(1).text()).toBe('Favourites');
 
-    wrapper.setProps({ path: '/favourites', favouriteImagesSize: 1 });
+    wrapper.setProps({ path: '/favourites', favouriteCharactersSize: 1 });
     navItems = wrapper.find('button');
 
     expect(navItems.at(0).prop('className')).not.toContain('active');
@@ -28,7 +28,7 @@ describe('Navigation', () => {
   });
 
   it('should call setPath when click on each nav items', () => {
-    const wrapper = shallow(<Navigation path="/" setPath={setPath} favouriteImagesSize={0} />);
+    const wrapper = shallow(<Navigation path="/" setPath={setPath} favouriteCharactersSize={0} />);
     const navItems = wrapper.find('button');
     const searchNavItem = navItems.at(0);
     const favouritesNavItem = navItems.at(1);

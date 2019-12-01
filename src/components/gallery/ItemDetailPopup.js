@@ -27,7 +27,7 @@ export default function ItemDetailPopup({
           >
             {isFavourite ? 'Unsave' : 'Save'}
           </Button>
-          <Button onClick={closePopup(setSelectedCharacter)}>X</Button>
+          <Button data-test-id="closePopupButton" onClick={closePopup(setSelectedCharacter)}>X</Button>
         </div>
         <div className={styles.body}>
           <section className={styles.characterContent}>
