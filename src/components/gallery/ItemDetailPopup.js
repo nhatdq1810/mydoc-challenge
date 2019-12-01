@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './ItemDetailPopup.module.scss';
 import Button from '../Button';
-import heartIcon from '../../assets/heart.svg';
 
 const closePopup = (setSelectedCharacter) => () => {
   setSelectedCharacter(null);
@@ -22,7 +21,12 @@ export default function ItemDetailPopup({
       <div className={styles.popup}>
         <div className={styles.popupHeader}>
           {isFavourite && showSavedListLink && <Button className={styles.savedListLink} onClick={goToSavedList(setPath)}>Go to saved list</Button>}
-          <Button className={`${styles.likeButton} ${isFavourite ? styles.active : ''}`} onClick={likeCharacter(selectedCharacter)}><img src={heartIcon} alt="like button" /></Button>
+          <Button
+            className={`${styles.saveButton} ${isFavourite ? styles.active : ''}`}
+            onClick={likeCharacter(selectedCharacter)}
+          >
+            {isFavourite ? 'Unsave' : 'Save'}
+          </Button>
           <Button onClick={closePopup(setSelectedCharacter)}>X</Button>
         </div>
         <div className={styles.body}>
